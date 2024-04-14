@@ -183,6 +183,12 @@ public class ClientController {
 		return "client/shipping";
 	}
 
+	@GetMapping("/intro")
+	public String introPage(Model model) {
+
+		return "client/intro";
+	}
+
 	@GetMapping("/guarantee")
 	public String guaranteePage(Model model) {
 

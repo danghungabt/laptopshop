@@ -16,7 +16,7 @@ public class DonHang {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@OneToMany(mappedBy = "donHang")
+	@OneToMany(mappedBy = "donHang", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ChiTietDonHang> danhSachChiTiet;
 
 	private String diaChiNhan;

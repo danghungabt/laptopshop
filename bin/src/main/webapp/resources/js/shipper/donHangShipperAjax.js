@@ -276,7 +276,7 @@ $(document).ready(function() {
             // dataType : 'json',
 			success : function(response) {
 				$("#capNhatTrangThaiModal").modal('hide');
-				alert("Cập nhật giao đơn hàng thành công");
+				alert("Cập nhật trạng thái đơn hàng thành công");
 			},
 			error : function(e) {
 				alert("Error!")

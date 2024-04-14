@@ -26,9 +26,9 @@
 		<form class="form-inline" id="searchForm" name="searchObject">
 			<input id="idShipper" type="hidden" value="${loggedInUser.id }">
 			<select class="form-control" id="trangThai">
-				<option value="Đang giao">Được phân công</option>
-				<option value="Chờ duyệt">Chờ duyệt</option>
-				<option value="Hoàn thành">Hoàn thành</option>
+				<option value="dang-giao">Được phân công</option>
+				<option value="cho-duyet">Chờ duyệt</option>
+				<option value="hoan-thanh">Hoàn thành</option>
 			</select>
 
 			<div class="form-group">
@@ -214,6 +214,23 @@
 										</table>
 										<h4 id="tongTienCapNhat"
 											style="float: right; font-weight: bold;padding-right: 50px"></h4>
+									</div>
+
+									<div class="form-group">
+										<h5 style="font-weight: bold;">Cập nhật trạng thái đơn hàng</h5>
+										<div class="form-check">
+											<input class="form-check-input" type="radio" name="trangThaiDonHang" id="choDuyet" value="cho-duyet" checked>
+											<label class="form-check-label" for="choDuyet">
+												Giao thành công
+											</label>
+										</div>
+										<div class="form-check">
+											<input class="form-check-input" type="radio" name="trangThaiDonHang" id="daBiHuy" value="da-bi-huy">
+											<label class="form-check-label" for="daBiHuy">
+												Hủy đơn
+											</label>
+										</div>
+										<!-- Add more radio buttons as needed -->
 									</div>
 
 									<div>

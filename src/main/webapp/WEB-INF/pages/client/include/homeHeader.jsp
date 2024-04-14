@@ -108,6 +108,7 @@
 							phí vận chuyển</a></li>
 					<li><a href="<%=request.getContextPath()%>/guarantee">Bảo
 							hành tận nơi</a></li>
+					<li><a href="<%=request.getContextPath()%>/intro">Giới thiệu</a></li>
 
 <%--					<li><a href="<%=request.getContextPath()%>/contact">Liên hệ</a></li>--%>
 				</ul>

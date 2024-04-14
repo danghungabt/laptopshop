@@ -6,8 +6,16 @@ public class CapNhatDonHangShipper {
 	
 	private long idDonHang;
 	private String ghiChuShipper;
+	private String trangThaiDonHang;
 	private List<CapNhatChiTietDon> danhSachCapNhatChiTietDon;
 
+	public String getTrangThaiDonHang() {
+		return trangThaiDonHang;
+	}
+
+	public void setTrangThaiDonHang(String trangThaiDonHang) {
+		this.trangThaiDonHang = trangThaiDonHang;
+	}
 
 	public static class CapNhatChiTietDon {
 		private long idChiTiet;

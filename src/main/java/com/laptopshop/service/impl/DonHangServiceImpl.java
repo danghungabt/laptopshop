@@ -4,8 +4,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import com.laptopshop.ulti.ConvertUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +34,45 @@ public class DonHangServiceImpl implements DonHangService {
 
 	@Override
 	public Page<DonHang> getAllDonHangByFilter(SearchDonHangObject object, int page) throws ParseException {
-		BooleanBuilder builder = new BooleanBuilder();
+//		BooleanBuilder builder = new BooleanBuilder();
+//
+//		String trangThaiDon = object.getTrangThaiDon();
+//		String tuNgay = object.getTuNgay();
+//		String denNgay = object.getDenNgay();
+//		SimpleDateFormat formatDate = new SimpleDateFormat("dd-MM-yyyy");
+//
+//		if (!trangThaiDon.equals("")) {
+//			builder.and(QDonHang.donHang.trangThaiDonHang.eq(trangThaiDon));
+//		}
+//
+//		if (!tuNgay.equals("") && tuNgay != null) {
+//			if (trangThaiDon.equals("") || trangThaiDon.equals("dang-cho-giao") || trangThaiDon.equals("da-bi-huy")) {
+//				builder.and(QDonHang.donHang.ngayDatHang.goe(formatDate.parse(tuNgay)));
+//			} else if (trangThaiDon.equals("dang-giao")) {
+//				builder.and(QDonHang.donHang.ngayGiaoHang.goe(formatDate.parse(tuNgay)));
+//			} else { // hoàn thành
+//				builder.and(QDonHang.donHang.ngayNhanHang.goe(formatDate.parse(tuNgay)));
+//			}
+//		}
+//
+//		if (!denNgay.equals("") && denNgay != null) {
+//			if (trangThaiDon.equals("") || trangThaiDon.equals("dang-cho-giao") || trangThaiDon.equals("da-bi-huy")) {
+//				builder.and(QDonHang.donHang.ngayDatHang.loe(formatDate.parse(denNgay)));
+//			} else if (trangThaiDon.equals("dang-giao")) {
+//				builder.and(QDonHang.donHang.ngayGiaoHang.loe(formatDate.parse(denNgay)));
+//			} else { // hoàn thành
+//				builder.and(QDonHang.donHang.ngayNhanHang.loe(formatDate.parse(denNgay)));
+//			}
+//		}
+//		Page<DonHang> result = donHangRepo.findAll(builder, PageRequest.of(page - 1, 6));
+//		for(int i = 0; i < result.getContent().size(); i++){
+//			result.getContent().get(i).setTrangThaiDonHang(ConvertUtils.convertStateOrder(result.getContent().get(i).getTrangThaiDonHang()));
+//		}
+//		return result;
+//		return donHangRepo.findAll(builder, PageRequest.of(page - 1, 6));
+
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * FROM don_hang WHERE 1 = 1 ");
 
 		String trangThaiDon = object.getTrangThaiDon();
 		String tuNgay = object.getTuNgay();
@@ -40,30 +80,46 @@ public class DonHangServiceImpl implements DonHangService {
 		SimpleDateFormat formatDate = new SimpleDateFormat("dd-MM-yyyy");
 
 		if (!trangThaiDon.equals("")) {
-			builder.and(QDonHang.donHang.trangThaiDonHang.eq(trangThaiDon));
+			sql.append("AND trang_thai_don_hang = '" + trangThaiDon + "'");
 		}
 
 		if (!tuNgay.equals("") && tuNgay != null) {
-			if (trangThaiDon.equals("") || trangThaiDon.equals("Đang chờ giao") || trangThaiDon.equals("Đã hủy")) {
-				builder.and(QDonHang.donHang.ngayDatHang.goe(formatDate.parse(tuNgay)));
-			} else if (trangThaiDon.equals("Đang giao")) {
-				builder.and(QDonHang.donHang.ngayGiaoHang.goe(formatDate.parse(tuNgay)));
+			if (trangThaiDon.equals("") || trangThaiDon.equals("dang-cho-giao") || trangThaiDon.equals("da-bi-huy")) {
+				sql.append("AND ngay_dat_hang >= " + formatDate.parse(tuNgay));
+			} else if (trangThaiDon.equals("dang-giao")) {
+				sql.append("AND ngay_giao_hang >= " + formatDate.parse(tuNgay));
 			} else { // hoàn thành
-				builder.and(QDonHang.donHang.ngayNhanHang.goe(formatDate.parse(tuNgay)));
+				sql.append("AND ngay_nhan_hang >= " + formatDate.parse(tuNgay));
 			}
 		}
 
 		if (!denNgay.equals("") && denNgay != null) {
-			if (trangThaiDon.equals("") || trangThaiDon.equals("Đang chờ giao") || trangThaiDon.equals("Đã hủy")) {
-				builder.and(QDonHang.donHang.ngayDatHang.loe(formatDate.parse(denNgay)));
-			} else if (trangThaiDon.equals("Đang giao")) {
-				builder.and(QDonHang.donHang.ngayGiaoHang.loe(formatDate.parse(denNgay)));
+			if (trangThaiDon.equals("") || trangThaiDon.equals("dang-cho-giao") || trangThaiDon.equals("da-bi-huy")) {
+				sql.append("AND ngay_dat_hang <= " + formatDate.parse(denNgay));
+			} else if (trangThaiDon.equals("dang-giao")) {
+				sql.append("AND ngay_giao_hang <= " + formatDate.parse(denNgay));
 			} else { // hoàn thành
-				builder.and(QDonHang.donHang.ngayNhanHang.loe(formatDate.parse(denNgay)));
+				sql.append("AND ngay_nhan_hang <= " + formatDate.parse(denNgay));
 			}
 		}
 
-		return donHangRepo.findAll(builder, PageRequest.of(page - 1, 6));
+		Query query = entityManager.createNativeQuery(sql.toString(), DonHang.class);
+
+		int pageSize = 6;
+		query.setFirstResult((page - 1) * pageSize);
+		query.setMaxResults(pageSize);
+
+		List<DonHang> resultList = query.getResultList();
+		for (DonHang donHang : resultList) {
+			donHang.setTrangThaiDonHang(ConvertUtils.convertStateOrder(donHang.getTrangThaiDonHang()));
+		}
+
+		int totalResults = entityManager.createNativeQuery("SELECT COUNT(*) FROM DonHang WHERE 1 = 1 " + sql.toString())
+				.getFirstResult();
+		int totalPages = (int) Math.ceil((double) totalResults / pageSize);
+
+		return new PageImpl<>(resultList, PageRequest.of(page - 1, pageSize), totalPages);
+
 	}
 
 	@Override
@@ -73,7 +129,12 @@ public class DonHangServiceImpl implements DonHangService {
 
 	@Override
 	public DonHang findById(long id) {
-		return donHangRepo.findById(id).get();
+
+		DonHang result = donHangRepo.findById(id).get();
+
+		result.setTrangThaiDonHang(ConvertUtils.convertStateOrder(result.getTrangThaiDonHang()));
+
+		return result;
 	}
 
 	@Override
@@ -112,7 +173,7 @@ public class DonHangServiceImpl implements DonHangService {
 		}
 
 		if (!tuNgay.equals("") && tuNgay != null) {
-			if (trangThaiDon.equals("Đang giao")) {
+			if (trangThaiDon.equals("dang-giao")) {
 				builder.and(QDonHang.donHang.ngayGiaoHang.goe(formatDate.parse(tuNgay)));
 			} else { // hoàn thành
 				builder.and(QDonHang.donHang.ngayNhanHang.goe(formatDate.parse(tuNgay)));
@@ -120,14 +181,18 @@ public class DonHangServiceImpl implements DonHangService {
 		}
 
 		if (!denNgay.equals("") && denNgay != null) {
-			if (trangThaiDon.equals("Đang giao")) {
+			if (trangThaiDon.equals("dang-giao")) {
 				builder.and(QDonHang.donHang.ngayGiaoHang.loe(formatDate.parse(denNgay)));
 			} else { // hoàn thành
 				builder.and(QDonHang.donHang.ngayNhanHang.loe(formatDate.parse(denNgay)));
 			}
 		}
 
-		return donHangRepo.findAll(builder, PageRequest.of(page - 1, size));
+		Page<DonHang> result = donHangRepo.findAll(builder, PageRequest.of(page - 1, size));
+		for(int i = 0; i < result.getContent().size(); i++){
+			result.getContent().get(i).setTrangThaiDonHang(ConvertUtils.convertStateOrder(result.getContent().get(i).getTrangThaiDonHang()));
+		}
+		return result;
 	}
 
 	@Override

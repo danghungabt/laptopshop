@@ -54,7 +54,7 @@ public class DonHangApi {
 	public void phanCongDonHang(@RequestParam("shipper") String emailShipper,
 			@RequestParam("donHangId") long donHangId) {
 		DonHang dh = donHangService.findById(donHangId);
-		dh.setTrangThaiDonHang("Đang giao");
+		dh.setTrangThaiDonHang("dang-giao");
 		dh.setShipper(nguoiDungService.findByEmail(emailShipper));
 
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -81,7 +81,7 @@ public class DonHangApi {
 			sp.setDonViBan(sp.getDonViBan() + ct.getSoLuongNhanHang());
 			sp.setDonViKho(sp.getDonViKho() - ct.getSoLuongNhanHang() );
 		}
-		dh.setTrangThaiDonHang("Hoàn thành");
+		dh.setTrangThaiDonHang("hoan-thanh");
 		String ghiChu = dh.getGhiChu();
 		if (!ghiChuAdmin.equals("")) {
 			ghiChu += "<br> Ghi chú admin:\n" + ghiChuAdmin;
@@ -94,7 +94,7 @@ public class DonHangApi {
 	@PostMapping("/cancel")
 	public void huyDonHangAdmin(@RequestParam("donHangId") long donHangId) {
 		DonHang dh = donHangService.findById(donHangId);
-		dh.setTrangThaiDonHang("Đã bị hủy");
+		dh.setTrangThaiDonHang("da-bi-huy");
 		donHangService.save(dh);
 	}
 

@@ -75,7 +75,7 @@ public class DonHangShipperApi {
 			e.printStackTrace();
 		}
 
-		donHang.setTrangThaiDonHang("Chờ duyệt");
+		donHang.setTrangThaiDonHang(capNhatDonHangShipper.getTrangThaiDonHang());
 
 		String ghiChu = capNhatDonHangShipper.getGhiChuShipper();
 

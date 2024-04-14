@@ -151,51 +151,6 @@ public class SanPhamServiceImpl implements SanPhamService {
 		Integer totalCount =  Integer.parseInt(entityManager.createNativeQuery(sqlQueryCount.toString()).getSingleResult().toString());
 
 		return new PageImpl<>(resultList, PageRequest.of(page- 1, limit), totalCount);
-
-//		BooleanBuilder builder = new BooleanBuilder();
-//		String price = object.getDonGia();
-//
-//		// sắp xếp theo giá
-//		Sort sort = Sort.by(Direction.ASC, "donGia"); // mặc định tăng dần
-//		if (object.getSapXepTheoGia().equals("desc")) { // giảm dần
-//			sort = Sort.by(Direction.DESC, "donGia");
-//		}
-//
-//		if (!object.getDanhMucId().equals("") && object.getDanhMucId() != null) {
-//			builder.and(QSanPham.sanPham.danhMuc.eq(danhMucRepo.findById(Long.parseLong(object.getDanhMucId())).get()));
-//		}
-//
-//		if (!object.getHangSXId().equals("") && object.getHangSXId() != null) {
-//			builder.and(QSanPham.sanPham.hangSanXuat
-//					.eq(hangSanXuatRepo.findById(Long.parseLong(object.getHangSXId())).get()));
-//		}
-//
-//		// tim theo don gia
-//		switch (price) {
-//		case "duoi-2-trieu":
-//			builder.and(QSanPham.sanPham.donGia.lt(2000000));
-//			break;
-//
-//		case "2-trieu-den-4-trieu":
-//			builder.and(QSanPham.sanPham.donGia.between(2000000, 4000000));
-//			break;
-//
-//		case "4-trieu-den-6-trieu":
-//			builder.and(QSanPham.sanPham.donGia.between(4000000, 6000000));
-//			break;
-//
-//		case "6-trieu-den-10-trieu":
-//			builder.and(QSanPham.sanPham.donGia.between(6000000, 10000000));
-//			break;
-//
-//		case "tren-10-trieu":
-//			builder.and(QSanPham.sanPham.donGia.gt(10000000));
-//			break;
-//
-//		default:
-//			break;
-//		}
-//		return sanPhamRepo.findAll(builder, PageRequest.of(page, limit, sort));
 	}
 
 	@Override

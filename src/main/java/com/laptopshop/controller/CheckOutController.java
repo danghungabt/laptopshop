@@ -111,7 +111,7 @@ public class CheckOutController {
 	@PostMapping(value="/thankyou")
 	public String thankyouPage(@ModelAttribute("donhang") DonHang donhang ,HttpServletRequest req,HttpServletResponse response ,Model model){
 		donhang.setNgayDatHang(new Date());
-		donhang.setTrangThaiDonHang("Đang chờ giao");
+		donhang.setTrangThaiDonHang("dang-cho-giao");
 
 		NguoiDung currentUser = getSessionUser(req);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

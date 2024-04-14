@@ -262,8 +262,9 @@ $(document).ready(function() {
 
     	 
     	 var data = { idDonHang : $("#donHangId").val(),
-    			      ghiChuShipper: $("#ghiChuShipper").val(), 
-    			      danhSachCapNhatChiTietDon: listChiTietCapNhat } ;
+    			      ghiChuShipper: $("#ghiChuShipper").val(),
+			 trangThaiDonHang: $("input[name='trangThaiDonHang']:checked").val(),
+			 danhSachCapNhatChiTietDon: listChiTietCapNhat } ;
 //    	 console.log(data);
     	 $.ajax({
      		async:false,
